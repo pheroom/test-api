@@ -10,7 +10,7 @@ def get_db():
 
 @app.route('/')
 def home():
-    return jsonify({"message": "Server is running!", "status": "ok"})
+    return jsonify({"message": "Server is running! ver. 2", "status": "ok"})
 
 @app.route('/api/health')
 def health():
