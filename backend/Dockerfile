@@ -6,21 +6,16 @@ ENV PYTHONUNBUFFERED=1 \
 
 WORKDIR /app
 
-RUN useradd -m -u 1000 appuser
+RUN useradd -r -u 1000 appuser
 
-COPY requirements.txt .
+COPY --chown=appuser:appuser requirements.txt .
+
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt
 
-COPY . .
-
-RUN chown -R appuser:appuser /app
+COPY --chown=appuser:appuser . .
 
 USER appuser
-
-#EXPOSE 8000
-
-#CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "4", "--timeout", "60", "app:app"]
 
 CMD gunicorn \
     --bind 0.0.0.0:8000 \

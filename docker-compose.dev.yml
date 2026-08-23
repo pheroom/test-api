@@ -33,6 +33,8 @@ services:
     restart: unless-stopped
     environment:
       DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
+      WORKERS: ${WORKERS}
+      LOG_LEVEL: ${LOG_LEVEL}
     ports:
       - "${APP_PORT:-8000}:8000"
     expose:
@@ -43,8 +45,9 @@ services:
     volumes:
       - ./backend:/app
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:${APP_PORT:-8000}/api/health"]
-      interval: 30s
+#      test: ["CMD", "curl", "-f", "http://localhost:${APP_PORT:-8000}/api/health"]
+      test: [ "CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')" ]
+      interval: 10s
       timeout: 3s
       retries: 3
       start_period: 5s
