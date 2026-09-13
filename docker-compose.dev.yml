@@ -32,7 +32,7 @@ services:
     container_name: myapp_backend
     restart: unless-stopped
     environment:
-      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
+      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:5432/${DB_NAME}
       WORKERS: ${WORKERS}
       LOG_LEVEL: ${LOG_LEVEL}
     ports:

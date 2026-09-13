@@ -5,7 +5,7 @@ from os import getenv
 app = Flask(__name__)
 
 def get_db():
-    conn = psycopg2.connect(getenv('DATABASE_URL'))
+    conn = psycopg2.connect(getenv('DATABASE_URL'), timeout=5)
     return conn
 
 @app.route('/')
