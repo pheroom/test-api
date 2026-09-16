@@ -59,17 +59,22 @@ services:
         max-size: "10m"
         max-file: "3"
 
-  nginx:
-    image: nginx:1.31-alpine
-    container_name: myapp_nginx
+  nginx-le:
+    image: umputun/nginx-le:latest
+    container_name: nginx-le
     restart: unless-stopped
     ports:
       - "80:80"
       - "443:443"
+    environment:
+      - TZ=UTC
+      - LETSENCRYPT=true
+      - LE_EMAIL=webshtormthebest1@gmail.com
+      - LE_FQDN=dvpsdmn834.work.gd,www.dvpsdmn834.work.gd
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./static:/app/static:ro
-#      - ./nginx/ssl:/etc/nginx/ssl:ro
+      - ./nginx/nginx.conf:/etc/nginx/service.conf:ro
+      - ./data/ssl:/etc/nginx/ssl
+      - ./data/letsencrypt:/etc/letsencrypt
     depends_on:
       backend:
         condition: service_healthy
@@ -82,6 +87,8 @@ services:
         max-file: "3"
 
 volumes:
+  certbot-etc:
+  certbot-var:
   db_data:
     driver: local
 
