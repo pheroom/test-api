@@ -69,10 +69,12 @@ services:
     environment:
       - TZ=UTC
       - LETSENCRYPT=true
+        #- LE_ADDITIONAL_OPTIONS=--staging 
       - LE_EMAIL=webshtormthebest1@gmail.com
-      - LE_FQDN=dvpsdmn834.work.gd,www.dvpsdmn834.work.gd
+      - LE_FQDN=dvpsdmn834.duckdns.org,www.dvpsdmn834.duckdns.org
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/service.conf:ro
+      - ./nginx/hash.conf:/etc/nginx/conf.d-le/hash.conf:ro
       - ./data/ssl:/etc/nginx/ssl
       - ./data/letsencrypt:/etc/letsencrypt
     depends_on:
@@ -87,8 +89,6 @@ services:
         max-file: "3"
 
 volumes:
-  certbot-etc:
-  certbot-var:
   db_data:
     driver: local
 
